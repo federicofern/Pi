@@ -98,12 +98,12 @@ const allVG = async (req, res) => {
       });
     }
     /* Los juegos que me traigo de la API los envio y muestro de la siguiente manera */
-    else{
+    
       for (const game of list) { //de la lista de juegos que me traigo, extraigo los valores que necesito para luego pushear al array.
           const { id, name, background_image, genres, rating } = game;
           const genresArray = [];
 
-           for (const genre of genres) { //de los generos que me traigo de la descripcion de la api, extraigo los valores para armar un array aparte para mí.
+          for (const genre of genres) { //de los generos que me traigo de la descripcion de la api, extraigo los valores para armar un array aparte para mí.
                const { name, id } = genre;
                genresArray.push({
                 id,
@@ -118,7 +118,7 @@ const allVG = async (req, res) => {
            genres: genresArray,
            rating,
            });
-       }
+       
       }   
     /* ---------- BUSQUEDA POR QUERY ---------- */
     if (req.query.name) {
