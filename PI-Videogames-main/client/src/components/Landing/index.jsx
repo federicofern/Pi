@@ -9,7 +9,7 @@ export default function LandingPage() {
           
             <img id="bienvenido" src={welcome} className={l.welcome} alt=""/>
             <Link to= '/home'>
-                <button className={l.iniciar} >INICIAR</button>
+                <button className={l.iniciar} >START</button>
             </Link>
         
         </div>

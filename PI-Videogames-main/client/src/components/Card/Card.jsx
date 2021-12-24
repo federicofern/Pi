@@ -1,17 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import style from './card.module.css'
 
 
 const GameCard = ({ name, img, genres, id }) => {
   
   return (
-    <div /* className={style.container} */>
-      <Link to= {`/videogame/${id}`} match="asd" >
+    <div  className={style.card} >
+      <div className={style.box}>
+        <img src={img? img : './IMG/IMG_NOT_FOUND-04.jpg'} alt='not found'/>      
+      </div>
         <h4>{name}</h4>
         <p> {genres}</p>
-        <img src={img? img : './IMG/IMG_NOT_FOUND-04.jpg'} alt='not found'/>
-      </Link>
-        
     </div>
   );
 };

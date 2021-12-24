@@ -1,4 +1,5 @@
 import React from "react";
+import style from './index.module.css'
 
 export default function Paginado ({videogamesPerPage, allVideoGames, paginado}){
     /* Declaro un array vacio donde voy a ir colocando los indices de cada pagina que necesite.
@@ -14,14 +15,12 @@ export default function Paginado ({videogamesPerPage, allVideoGames, paginado}){
     }
 
     return(
-        <div>
-            <ul className="paginado">
+        <div className={style.cont}>
                 {numbers?.map(n =>(
-                    <li className="number" key={n}>
-                        <a onClick={()=> paginado(n)}>{n}</a> {/* Al recorrer el array numbers itero y le asigno a la etiqueta <a> el valor que le corresponde por cada ciclo, a su vez le asignmo un evento a cada numero para que al Cliquear se ejecute la funcion que se declaro en el Home pasandole como argumento el número de pagina que se esta llamando */}
-                    </li>
+                    <button className="number" key={n} onClick={()=> paginado(n)}>
+                        <a>{n}</a> {/* Al recorrer el array numbers itero y le asigno a la etiqueta <a> el valor que le corresponde por cada ciclo, a su vez le asignmo un evento a cada numero para que al Cliquear se ejecute la funcion que se declaro en el Home pasandole como argumento el número de pagina que se esta llamando */}
+                    </button>
                 ))}
-            </ul>
         </div>
     )
 }

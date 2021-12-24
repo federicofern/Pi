@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Lato';
-    src: url('./Lato-Black.ttf');
+    src: url('./Lato-Bold.ttf');
     font-style: normal;
     font-weight: normal;
   }
@@ -14,7 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('./landing1.jpg');
+    background-image: url('./landing2.jpg');
     z-index: 2;
   }
 
@@ -34,6 +34,7 @@
     box-shadow: none;
     color: rgba(0, 0, 0, 0.816);
     font-family: 'Lato';
+    font-weight: 600;
     font-size: 16px;
     cursor: pointer;
 }

@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('./tipografias/Lato-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+@font-face {
+    font-family: 'Coolvetica';
+    src: url('./tipografias/coolvetica.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+.cont {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.726);
+    border-radius: 10px;
+    
+    
+}
+
+.cont button{
+   border: 0px;
+   background-color: rgba(0, 0, 0, 0);
+   color: rgb(255, 255, 255);
+   font-family: 'coolvetica';
+   font-size: 16px;
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+.cont button:focus{
+    background-color: rgba(245, 245, 245, 0.856);
+    color: black;
+    font-weight: bold;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+}

@@ -1,0 +1,115 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('./tipografias/Lato-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+@font-face {
+    font-family: 'Coolvetica';
+    src: url('./tipografias/coolvetica.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+.searchBar{
+    margin-left: 20px;
+    margin-right: 30px;
+    align-items: center;
+}
+
+.contenedor{
+    background-image: url('./video-games-futuristic-city-citadel-cityscape-citadel-mass-effect-mass-effect-science-fiction.png');
+    background-attachment: fixed;
+    display: flex;
+    padding-top: 20px;
+}
+
+/* GENEROS */
+.generos{
+    background-color: rgba(0, 0, 0, 0.726);
+    border-radius: 10px;
+    width: 200px;
+    height: 1100px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    padding-top: 10px;
+}
+
+.generos h2{
+    font-family: 'coolvetica';
+    color: whitesmoke;
+    letter-spacing: 3px;
+    font-size: 34px;
+}
+
+.bot{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Lato';
+}
+
+.bot button{
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid rgba(245, 245, 245, 0);
+    color:whitesmoke;
+    padding-top: 5px ;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    font-size: 19px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.bot button:focus{
+    background-color: rgba(245, 245, 245, 0.637);
+    color: black;
+    font-weight: bold;
+}
+
+/* CONTENEDOR DE TODA LA IZQ */
+.contenedorChico{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+/* CONTENEDOR CARDS */
+.total{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 800px;
+}
+
+/* FILTROS */
+.filters{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: rgba(0, 0, 0, 0.726);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.filters div{
+    display: flex;
+}
+
+.filters p{
+    margin: 0px;
+    font-family: 'Lato';
+    color: whitesmoke;
+}
+.filters select{
+    height: 25px;
+    margin-left: 10px;
+    border: 2px solid rgb(245, 245, 245);
+    border-radius: 5px;
+    padding: 2px;
+    font-family: 'Lato';
+}

@@ -1,25 +1,32 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import {useDispatch, useSelector} from 'react-redux'
-import { getVideogames, orderByRating, filterCreated } from '../../actions'
-import Card from '../Card/Card.jsx'
 import {Link} from 'react-router-dom'
+import { getVideogames, orderByRating, filterCreated, alphabeticalOrder, getGenres, filterByGenres } from '../../actions'
+import Card from '../Card/Card.jsx'
 import Paginado from "../Paginado";
+import SearchBar from "../SearchBar";
+import style from './home.module.css'
 /* 
 useDispatch: Devuelve una referencia a la función dispatch de la tienda Redux. Puede usarlo para enviar acciones según sea necesario.
 useSelector: Le permite extraer datos del estado de la tienda Redux, usando una función de selector. El selector es aproximadamente equivalente al mapStateToProps conceptualmente.
 */
 
+const divStyle = {
+    textDecoration: "none",
+    };
+
 export default function Home(){
 
     const dispatch= useDispatch();
     const allVideoGames= useSelector((state) => state.videoGames) //Como todo mi app esta envuelta en el Povider, el state esta disponible para todos los componentes. Me guardo en esa constante todo lo que tiene el estado en videoGames.
+    const allGenres = useSelector((state) => state.genres);
 
     /* Nos traemos del estado el contenido, cuando el componente se monta */
 
     useEffect (()=>{
         dispatch(getVideogames())
-    }) //Será llamado cuando el componente se monte y cuando se actualice.
+    },[]) //Será llamado cuando el componente se monte y cuando se actualice.
     
     /* --------PAGINADO------- */
     /* Declaro mis estados locales para armar el paginado */
@@ -37,62 +44,115 @@ export default function Home(){
     }
 
 
-    /* Funciones onClick/onChange */
+    /* -----------Funciones onClick/onChange -------------*/
     const handleFilterCreated = (e)=>{
+        e.preventDefault();
         dispatch(filterCreated(e.target.value))
+        
     }
 
+    /* ordenamientos por sort */
+    const [order, setOrder]= useState('')
+    const handleSortAlphabetical = (e)=>{
+        e.preventDefault();
+        dispatch(alphabeticalOrder(e.target.value))
+        setCurrentPage(1)//aviso que empezamos desde la pagina 1
+        setOrder(`Ordenado ${e.target.value}`) //Este estado avisa que se hizo un ordenamiento y como solo se renderiza cuando ubo un cambio de estado o cambian las props, "forzamos" a que se renderice de nuevo la lista.
+    }
+    const handleSortRating = (e)=>{
+        e.preventDefault();
+        dispatch(orderByRating(e.target.value))
+        setCurrentPage(1)//aviso que empezamos desde la pagina 1
+        setOrder(`Ordenado ${e.target.value}`) //Este estado avisa que se hizo un ordenamiento y como solo se renderiza cuando ubo un cambio de estado o cambian las props, "forzamos" a que se renderice de nuevo la lista.
+    }
+
+     /* Orden por género */
+    
+     useEffect(() => {
+        dispatch(getGenres());
+      }, [dispatch]);
+    
+      const handleFilterByGenres = (ev) => {
+        ev.preventDefault();
+        dispatch(filterByGenres(ev.target.name));
+        setCurrentPage(1)
+        
+      };
+
     return (
-        <div>
-            <div>
+        <div className={style.contenedor}>
+         <div className={style.generos}>
+             <h2>GENRES</h2>
+             <div className={style.bot}>
+                <button onClick = {handleFilterByGenres} name= "All">All</button>
+                 {allGenres &&
+                 allGenres.map((genres) => (
+                <button onClick = {handleFilterByGenres} name={genres.name}>{genres.name}</button>
+                    ))}
+             </div>
+         </div>
+         <div>
+            <div className={style.searchBar}>
+                <SearchBar/>
+            </div>
+            <div className={style.filters}>
                 <div>   
-                <p>Alphabetical Order</p>
-                <select>
-                    <option value="all">All</option>
+                <p>Alphabetical Order </p>
+                <select onChange={handleSortAlphabetical}>
+                    <option value="alpha">All</option>
                     <option value="a-z">A-Z</option>
                     <option value="z-a">Z-A</option>
                 </select>
                 </div> 
 
                 <div>   
-                <p>Order by Rating</p>
-                <select>
-                    <option value="all2">All</option>
+                <p>Order by Rating </p>
+                <select onChange={handleSortRating}>
+                    <option value="rating">All</option>
                     <option value="top">Top</option>
                     <option value="btt">Bottom</option>
                 </select>
                 </div>
 
                 <div>   
-                <p>Filter by Created</p>
-                <select onChange={e => handleFilterCreated}>
-                    <option value="all3">All</option>
+                <p>Filter by Created </p>
+                <select onChange={handleFilterCreated}>
+                    <option value="created">All</option>
                     <option value="created">Created</option>
                     <option value="exist">Existing</option>
                 </select>
                 </div>
             </div>
 
+           
+            
+          <div className={style.contenedorChico}>
             <Paginado
             videogamesPerPage={videogamesPerPage}
             allVideoGames={allVideoGames.length}
             paginado={paginado}
             />
-
-            {currentVideogames && currentVideogames.map((el)=>( //Mapeamos currentVideogames de modo que se aplique una division de los videogames por página. Cuando yo seteo el estado local currentPage se repite toda la logica desde mi const paginado, pasando por mi elemento Paginado y vuelta a currentVideogames
-                <Link to={'/videogame/' + el.id}>
+          </div>
+            <div className={style.total}>
+            {currentVideogames?.map((el)=>( //Mapeamos currentVideogames de modo que se aplique una division de los videogames por página. Cuando yo seteo el estado local currentPage se repite toda la logica desde mi const paginado, pasando por mi elemento Paginado y vuelta a currentVideogames 
+                <Link style={divStyle} to={'/videogame/' + el.id} id={el.id}>
                     <Card
+                    img= {el.background_image ? el.background_image : <img src='./IMG_NOT_FOUND'/>} 
                     name= {el.name}
-                    img= {el.background_img} //PREGUNTAR POR QUE NO ME TRAE LAS IMAGENES
                     id={el.id}
                     key={el.id}
                     genres={el.genres.map((gen)=>{
-                        return gen.name + ' '
+                        return '  ' + gen.name + '  '
                     })}
                     />
                 </Link>
+               
             )
             )}
+            </div>
+          
+
+        </div>
         </div>
     )
 }

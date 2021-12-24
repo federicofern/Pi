@@ -1,0 +1,100 @@
+@font-face {
+    font-family: 'Coolvetica';
+    src: url('./tipografias/coolvetica.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('./tipografias/Lato-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+.cont{
+    display: flex;
+    
+    background-image: url('./fondo2.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    padding: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: rgba(0, 0, 0, 0.781);
+    border-radius: 30px;
+    padding: 30px;
+    width: 700px;
+    align-items: space-evenly;
+}
+
+.card a{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.card h2{
+    color: whitesmoke;
+    padding: 10px;
+    font-family: 'Lato';
+    margin: 10px;
+    letter-spacing: 2px;
+}
+
+.card h1{
+    font-family: 'coolvetica';
+    color: whitesmoke;
+    letter-spacing: 2px;
+    font-size: 70px;
+    margin: 10px;
+}
+.card img{
+    margin: auto;
+    width: 400px;
+    height:fit-content;
+    border-radius: 10px;
+}
+
+.card p{
+    font-family: 'Lato';
+    color:whitesmoke;
+    margin: 10px;
+}
+.card h4{
+    text-decoration: none;
+    font-family: 'Lato';
+    color:whitesmoke;
+    font-size: 16px;
+}
+
+.card button{
+    margin: 7px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    box-shadow: none;
+    box-sizing: border-box; /*Propiedad para que los botones no salgan del contenedor, el contenido del boton absorve la reduccion del espacio para cuando se achica la caja contenedora*/
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Lato';
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.card button:hover{
+    background-color: #000000;
+    color: #ffffff;
+    border: 3px solid rgba(255, 255, 255, 0.453);
+}

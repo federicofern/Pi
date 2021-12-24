@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('./tipografias/Lato-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+@font-face {
+    font-family: 'Coolvetica';
+    src: url('./tipografias/coolvetica.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+.card{
+    width: 150px;
+    height: 240px;
+    background-color:rgba(0, 0, 0, 0.726);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+.box{
+    width: 150px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.box img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+}
+
+.card h4{
+    font-family: 'Lato';
+    color: whitesmoke;
+    letter-spacing: 1px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+.card p{
+    font-family: 'Lato';
+    color: whitesmoke;
+    padding: 10px;
+}

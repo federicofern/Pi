@@ -1,6 +1,7 @@
 require("dotenv").config(); //Configuración para utilizar .env
 const axios = require("axios");
-const { Genero, Videogame } = require("../db");
+const { Genre, Videogame } = require("../db");
+//const Genre = require("../models/Genre");
 const API_KEY = process.env.API_KEY;
 
 /* --------------- FUNCIONES UTILES --------------- */
@@ -8,7 +9,7 @@ const API_KEY = process.env.API_KEY;
 
 const loadGenero = async () => {
     try {  
-      let gen = await Genero.count(); //solicitud a la base de datos, pregunta si esta vacio o no
+      let gen = await Genre.count(); //solicitud a la base de datos, pregunta si esta vacio o no
     
       if (gen === 0) {
         /* Solicito a la base los generos que hay disponibles y los guardo en la variable 'genero', para luego extraer la propiedad results de la data que nos traemos de la api */
@@ -17,7 +18,7 @@ const loadGenero = async () => {
         /* Iteramos cada uno de los resultados para extraer las propiedades id y name e ir asignando los valores a la tabla Genero */
         for (let i = 0; i < results.length; i++) {
           const { name } = results[i];
-          await Genero.create({
+          await Genre.create({
             name: name,
           });
         }
@@ -65,7 +66,7 @@ const gameDetail = async (id) => {
 
 const createGenreDB = async (req, res) => {
   await loadGenero();
-  res.status(200).json(await Genero.findAll());
+  res.status(200).json(await Genre.findAll());
 }
 
 
@@ -80,7 +81,7 @@ const allVG = async (req, res) => {
     if (countVideoGame !== 0) {
       const game = await Videogame.findAll({ //Me traigo todos los datos de las DB incluida la de Generos
         attributes: ["id", "name", "rating", "background_image"],
-        include: [Genero],
+        include: [Genre],
       });
       game.map((element) => {
         videoGames.push({
@@ -165,89 +166,59 @@ const allVG = async (req, res) => {
 }
 
 
-
 const searchVGid = async (req, res) => {
-  try {
-    const idVideogame = req.params.idVideogame;
+  const id = req.params.idVideogame
 
-    /* Como la propiedad UUID crea un id de 32 digitos, verifico si el videogame que me pasan por id corresponde a la base de datos o a la api. Los creados van a estar en la DB con el id de UUID y los demas en la api. */
+  /*---------- BUSQUEDA POR ID EN DB ---------- */
+  if(id.length>20){
+    let videogamesDB = await Videogame.findAll({  //consulto a la tabla dog y con el includes le digo que incluya la otra tabla(temperaments)
+      include: {
+          model: Genre, // PREGUNTAR
+          attributes: ['name'],
+          through: {
+              attributes: [],
+          },
+      }
+    })
+    videogamesDB.filter(i =>i.id == id);
+    videogamesDB.length?
+        res.status(200).send(videogamesDB):
+        res.status(404).send('Game not found');
 
-    /*---------- BUSQUEDA POR ID EN DB ---------- */
-    if (idVideogame.length > 20) {
-      const arrayDB = [];
-      const gameDB = await Videogame.findByPk(`${idVideogame}`, {
-        include: [Genero],
-      });
+  } else {
+  /* ---------- BUSQUEDA POR ID EN API ---------- */
+    const videogame = await gameDetail(id);
+    if (videogame === undefined) {
+      res.status(404).json({ error: "Game not found" });
+    } else {
       const {
         id,
-        background_image,
         name,
-        genres,
+        background_image,
         description,
         released,
         rating,
         platforms,
-      } = gameDB;
-      arrayDB.push({
+        genres,
+      } = videogame.data;
+
+      let game = [];
+
+      game.push({
         id,
         name,
         background_image,
         description,
         released,
         rating,
-        platforms,
-        genres: genres.map((element) => {
-          return {
-            id: element.id,
-            name: element.name,
-          };
-        }),
+        platforms: platforms.map((element) => ` -${element.platform.name}- `),
+        genres: genres.map((element) => element.name),
       });
 
-      /* Meto toda la date del video juego en un array para ser enviado como Json*/
+      /* De la informacion que me traigo de la api, la guardo enn un array y lo envio como Json */
 
-      res.status(200).json(arrayDB);
-    } else {
-
-      /* ---------- BUSQUEDA POR ID EN API ---------- */
-
-      const videogame = await gameDetail(idVideogame);
-      console.log("Holis, entré!")
-      console.log(videogame);
-      if (videogame === undefined) {
-        res.status(200).json({ error: "Game not found" });
-      } else {
-        const {
-          id,
-          name,
-          background_image,
-          description,
-          released,
-          rating,
-          platforms,
-          genres,
-        } = videogame.data;
-
-        const game = [];
-
-        game.push({
-          id,
-          name,
-          background_image,
-          description,
-          released,
-          rating,
-          platforms: platforms.map((element) => element.platform.name),
-          genres: genres.map((element) => element.name),
-        });
-
-        /* De la informacion que me traigo de la api, la guardo enn un array y lo envio como Json */
-
-        res.status(200).json(game);
-      }
+      res.status(200).json(game);
     }
-  } catch (error) {
-    console.log(error);
   }
 }
 
@@ -264,13 +235,39 @@ const createGame = async (req, res) => {
       rating,
       released,
     })
-    let genero= await Genero.findAll({ 
+    const genero= await Genre.findAll({ 
       where: {name: genres},
     }
     )
-    newVideogame.addGenero(genero)
+    newVideogame.addGenre(genero)
     res.send('Videogame Successfully Created')
   } catch (error) {
+    console.log(error)
+  }
+}
+
+const allPlatforms = async (req, res)=>{
+  try {
+    const list2 = await everyGame();
+    const everyPlatforms = new Array();
+
+    for (const plat of list2) {
+      const { platforms } = plat;
+        everyPlatforms.push(platforms)
+    }
+
+    const arrayPlat= new Array();
+
+    for(let i=0; i<everyPlatforms.length; i++){
+      everyPlatforms[i].map((el)=>{
+        arrayPlat.push(el.platform.name)
+      })
+    }
+
+    const names= [...new Set(arrayPlat)]
+    res.status(200).json(names)
+  }
+  catch (error) {
     console.log(error)
   }
 }
@@ -279,5 +276,6 @@ module.exports = {
   createGenreDB,
   allVG,
   searchVGid,
-  createGame
+  createGame,
+  allPlatforms
 }

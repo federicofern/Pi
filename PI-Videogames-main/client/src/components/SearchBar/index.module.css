@@ -1,0 +1,33 @@
+.search input{
+    box-shadow: none;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    border: 3px solid #ffffff;
+    margin: 10px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.search input::placeholder{
+    font-size: 14px;
+    font-family: 'Lato-Regular';
+}
+
+.search button{
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    box-shadow: none;
+    box-sizing: border-box; /*Propiedad para que los botones no salgan del contenedor, el contenido del boton absorve la reduccion del espacio para cuando se achica la caja contenedora*/
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Lato';
+    font-size: 14px;
+}
+
+.search button:hover{
+    background-color: #000000b4;
+    color: #ffffff;
+    border: 3px solid #000000b4;
+} 
