@@ -12,20 +12,31 @@
     font-weight: normal;
   }
 
+@font-face {
+    font-family: 'poppins';
+    src: url('./tipografias/Poppins-Medium.ttf');
+    font-style: normal;
+    font-weight: normal;
+}
+
 .card{
-    width: 150px;
-    height: 240px;
+    width: 180px;
+    height: 180px;
     background-color:rgba(0, 0, 0, 0.726);
     border-radius: 10px;
     margin: 10px;
-    padding: 10px;
+    /* padding: 10px; */
+    display: flex;
+    justify-content: space-evenly;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 .box{
-    width: 150px;
+    width: 180px;
     height: 100px;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 0;
+    margin-bottom: 3px;
 }
 .box img{
     object-fit: cover;
@@ -34,16 +45,38 @@
     object-position: center;
 }
 
-.card h4{
-    font-family: 'Lato';
+.contenido h4{
+    font-family: 'poppins';
     color: whitesmoke;
     letter-spacing: 1px;
-    margin: 10px;
-    font-size: 16px;
+    margin: 2px;
+    font-size: 14px;
+    font-weight: 2px;
+    line-height: 16px;
 }
 
-.card p{
-    font-family: 'Lato';
+.generos{
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.generos p{
+    
+    font-family: 'poppins';
     color: whitesmoke;
-    padding: 10px;
+    font-size: 10px;
+    margin:0px;
+    
+}
+
+.contenido{
+    display: flex;
+    text-align: left;
+    /* justify-content: center; */
+    margin: 0px;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 150px;
+    padding-left: 5px;
 }

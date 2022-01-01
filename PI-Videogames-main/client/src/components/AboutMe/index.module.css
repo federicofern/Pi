@@ -1,0 +1,106 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('./tipografias/Lato-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+@font-face {
+    font-family: 'Coolvetica';
+    src: url('./tipografias/coolvetica.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('./tipografias/Poppins-Medium.ttf');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+.fond{
+    background-image: url('./img/flash.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 30px;
+}
+
+.contenedor{
+    background-color: rgba(0, 0, 0, 0.837) ;
+    border-radius: 30px;
+    padding: 20px;
+    padding-bottom: 50px;
+}
+
+.contenedor h1{
+    font-family: 'Poppins';
+    color: whitesmoke;
+    font-size: 50px;
+    /* font-weight: normal; */
+    text-align: left;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.contenedor pre{
+    color: whitesmoke;
+    font-size: 16px;
+    text-align: left;
+    margin-left: 50px;
+}
+
+.contenedor h2{
+    margin:0px;
+    font-size: 40px;
+    font-family: 'Poppins';
+    color: rgb(0, 253, 207);
+}
+
+.contenedor h3{
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins';
+    color: whitesmoke;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    /* margin-left: 50px; */
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.contenedor h4{
+    font-family: 'Poppins';
+    color: whitesmoke;
+    font-size: 30px;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.cont{
+    display: flex;
+    margin-left: 45px;
+    margin-right: 45px;
+    justify-content: center;
+}
+
+.contenedor img{
+    width: 50px;
+    height: auto;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.contenedor p{
+    margin: 0px;
+    color: whitesmoke;
+    font-family: 'Poppins';
+}
+
+.contact{
+    margin-top: 80px;
+}

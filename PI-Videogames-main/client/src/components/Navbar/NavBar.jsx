@@ -8,7 +8,7 @@ export default function NavBar() {
       <Link exact to="/home" className={navbar.title}>VideoGame</Link>
       <div className={navbar.links}>
       <Link to="/created"> Create Videogame </Link>
-      <Link to="/about"> About Pi </Link>
+      <Link to="/about"> About Me </Link>
       </div>
     </nav>
   );

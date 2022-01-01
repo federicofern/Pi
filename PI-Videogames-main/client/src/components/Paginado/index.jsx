@@ -17,7 +17,7 @@ export default function Paginado ({videogamesPerPage, allVideoGames, paginado}){
     return(
         <div className={style.cont}>
                 {numbers?.map(n =>(
-                    <button className="number" key={n} onClick={()=> paginado(n)}>
+                    <button key={n} onClick={()=> paginado(n)}>
                         <a>{n}</a> {/* Al recorrer el array numbers itero y le asigno a la etiqueta <a> el valor que le corresponde por cada ciclo, a su vez le asignmo un evento a cada numero para que al Cliquear se ejecute la funcion que se declaro en el Home pasandole como argumento el número de pagina que se esta llamando */}
                     </button>
                 ))}

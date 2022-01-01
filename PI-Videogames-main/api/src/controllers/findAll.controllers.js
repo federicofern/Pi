@@ -171,18 +171,18 @@ const searchVGid = async (req, res) => {
 
   /*---------- BUSQUEDA POR ID EN DB ---------- */
   if(id.length>20){
-    let videogamesDB = await Videogame.findAll({  //consulto a la tabla dog y con el includes le digo que incluya la otra tabla(temperaments)
+    let videogamesDB = await Videogame.findAll({  //consulto a la tabla Videogame y con el includes le digo que incluya la otra tabla(Genre)
       include: {
-          model: Genre, // PREGUNTAR
+          model: Genre,
           attributes: ['name'],
           through: {
               attributes: [],
           },
       }
     })
-    videogamesDB.filter(i =>i.id == id);
-    videogamesDB.length?
-        res.status(200).send(videogamesDB):
+    const vidgameId = await videogamesDB.filter(i =>i.id === id);
+    vidgameId.length?
+        res.status(200).send(vidgameId):
         res.status(404).send('Game not found');
 
   } else {

@@ -1,13 +1,55 @@
-import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getPlatforms } from "../../actions";
-import crear from './index.module.css'
+import style from './index.module.css'
 
-export default function VideogameCreate (){
-    const dispatch= useDispatch()
-    const genre= useSelector((state)=> state.genres)
-    const platforms= useSelector((state)=> state.platforms)
+/* errores dentro del form */
+const validate = (input) => {
+    let errors = {};
+    if (input.name === "") {
+        errors.name = "Name incomplete.";
+    }
+
+    if (input.name.length > 255) {
+        errors.name = 'Must be less then 255 characters'
+    }
+
+    if (input.background_image === "") {
+        errors.background_image = "Choose an image to continue";
+    }
+
+    if (!input.description) {
+        errors.description = "Description incomplete.";
+    }
+
+    if (input.rating > 5 || input.rating < 0) {
+        errors.rating = "Rating must be between 0 and 5";
+    }
+
+    if (!input.released) {
+        errors.released = "When was it released?";
+    }
+
+    if (input.platforms.length === 0) {
+        errors.platforms = "Choose a platform to continue";
+    }
+
+    if (input.genres.length === 0) {
+        errors.genres = "Choose a genre to continue";
+    }
+
+    return errors;
+};
+
+/* ---------------------------- */
+
+
+export default function VideogameCreate() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const genre = useSelector((state) => state.genres)
+    const platforms = useSelector((state) => state.platforms)
 
     const [input, setInput] = useState({
         name: '',
@@ -16,113 +58,178 @@ export default function VideogameCreate (){
         platforms: [],
         rating: 0,
         released: '',
-        genres:[]
+        genres: []
     })
 
-    useEffect(()=>{
-        dispatch(getGenres())
-    },[])
+    const [errors, setErrors] = useState({});
 
-    useEffect(()=>{
+    useEffect(() => {
+        dispatch(getGenres())
+    }, [])
+
+    useEffect(() => {
         dispatch(getPlatforms())
-    },[])
+    }, [])
+
+    useEffect(() => {
+        setErrors(validate(input))
+    }, [])
 
     /* Funciones onClick/onChange */
 
-    const handleChange=(e)=>{
+    const handleChange = (e) => {
         e.preventDefault();
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
+        setErrors(
+            validate({
+                ...input,
+                [e.target.name]: e.target.value,
+            })
+        );
     }
 
-    const handleSelectP = (e)=>{
+    const handleSelectP = (e) => {
         e.preventDefault();
         setInput({
             ...input,
             platforms: [...input.platforms, e.target.value]
         })
+        setErrors(
+            validate({
+                ...input,
+                platforms: [...input.platforms, e.target.value],
+            })
+        );
     }
 
-    const handleSelectG = (e)=>{
+    const handleDeleteP = (e) => {
+        setInput({
+            ...input,
+            platforms: input.platforms.filter(d => d !== e)
+        })
+    }
+
+    const handleSelectG = (e) => {
         e.preventDefault();
         setInput({
             ...input,
             genres: [...input.genres, e.target.value]
         })
+        setErrors(
+            validate({
+                ...input,
+                genres: [...input.genres, e.target.value],
+            })
+        );
     }
 
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-        dispatch(postVideogame(input))
-        alert("You've a New Video Game!")
+    const handleDeleteG = (e) => {
         setInput({
-            name: '',
-            background_image: '',
-            description: '',
-            platforms: [],
-            rating: 0,
-            released: '',
-            genres:[]
+            ...input,
+            genres: input.genres.filter(d => d !== e)
         })
     }
 
-    return (
-        <div className={crear.fondo}>
-            <div className={crear.form}>
-            <h1>NEW VIDEOGAME</h1>
-            <form onSubmit={handleSubmit}>
-                <div className={crear.box1}>
-                <div>
-                    <label>Name: </label>
-                    <input type='text' placeholder="What is it called?" value={input.name} name='name' onChange={handleChange}></input>
-                </div>
-                <div>
-                    <label>Rating: </label>
-                    <input type='number' placeholder='1,00' value={input.rating} name='rating' onChange={handleChange} step="0.01" min="0" max="5"></input>
-                </div>
-                </div>
-                <div>
-                    <label>Description: </label>
-                    <input type='text' placeholder="What is it about?" value={input.description} name='description' onChange={handleChange}></input>
-                </div>
-                <div className={crear.box2}>
-                <div>
-                    <label>Released: </label>
-                    <input type='date' placeholder='when was it released?' value={input.released} name='released' onChange={handleChange}></input>
-                </div>
-                <div>
-                    <label>Image: </label>
-                    <input type='text' placeholder="Put the URL of the image" value={input.background_image} name='background_image' onChange={handleChange}></input>
-                </div>
-                </div>
-                <div className={crear.platgen}>
-                    <div >
-                    <label>Platforms: </label>
-                    <select onChange={handleSelectP}>
-                        {platforms.map((p)=>(
-                            <option value={p}>{p}</option>
-                        ))}
-                    </select>
-                    <ul>{ !input.platforms.length ? <p>Select Platforms</p> : input.platforms.map(e=> <li>{e}</li>)}</ul>
-                    </div>
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (Object.keys(errors).length > 0) {
+            alert("Complete the required fields!");
+        } else {
+            dispatch(postVideogame(input))
+            alert("You've a New Video Game!")
+            setInput({
+                name: '',
+                background_image: '',
+                description: '',
+                platforms: [],
+                rating: 0,
+                released: '',
+                genres: []
+            })
+            navigate("/home");
+            window.location.reload()
+        }
+    }
 
-                    <div>
-                    <label>Genres: </label>
-                    <select onChange={handleSelectG}>
-                        {genre.map((p)=>(
-                            <option value={p.name}>{p.name}</option>
-                        ))}
-                    </select>
-                    <ul>{ !input.genres.length ? <p>Select Genres</p> : input.genres.map(e=> <li>{e}</li>)}</ul>
+    const handleCancel = (e) => {
+        e.preventDefault();
+        let res = window.confirm('Are you sure you want to leave?')
+        if (res) {
+            navigate("/home");
+        } else {
+            return false
+        }
+    }
+
+    return (
+        <div className={style.fondo}>
+            <div className={style.form}>
+                <h1>NEW VIDEOGAME</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className={style.bigbigbox}>
+                        <div className={style.bigbox}>
+                            <div className={style.box1}>
+                                <div>
+                                    <label>Name: </label>
+                                    <input type='text' placeholder="What is it called?" value={input.name} name='name' onChange={handleChange}></input>
+                                    {errors.name ? <p className={style.error}> {errors.name} </p> : <p className={style.espacio}></p>}
+                                </div>
+                                <div>
+                                    <label>Rating: </label>
+                                    <input type='number' placeholder='1,00' value={input.rating} name='rating' onChange={handleChange} step="0.01" min="0" max="5"></input>
+                                    {errors.rating ? <p className={style.error}> {errors.rating} </p> : <p className={style.espacio}></p>}
+                                </div>
+                            </div>
+                            <div className={style.box2}>
+                                <div>
+                                    <label>Released: </label>
+                                    <input type='date' placeholder='when was it released?' value={input.released} name='released' onChange={handleChange}></input>
+                                    {errors.released ? <p className={style.error}> {errors.released} </p> : <p className={style.espacio}></p>}
+                                </div>
+                                <div>
+                                    <label>Image: </label>
+                                    <input type='text' placeholder="Put the URL of the image" value={input.background_image} name='background_image' onChange={handleChange}></input>
+                                    {errors.background_image ? (<p className={style.error}> {errors.background_image} </p>) : <p className={style.espacio}></p>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={style.description}>
+                            <label>Description: </label>
+                            <textarea rows="5" cols="40" value={input.description} name='description' onChange={handleChange} placeholder="What is it about?"></textarea>
+                            {errors.description ? (<p className={style.error}> {errors.description} </p>) : <p className={style.space}></p>}
+                        </div>
                     </div>
-                </div>
-                <div className={crear.button}>
-                <button type="submit">Crear</button>
-                <button type='button'>Cancel</button>
-                </div>
-            </form>
+                    <div className={style.platgen}>
+                        <div >
+                            <label>Platforms: </label>
+                            <select onChange={handleSelectP} name='platforms'>
+                                {platforms.map((p) => (
+                                    <option value={p}>{p}</option>
+                                ))}
+                            </select>
+                            <ul>{!input.platforms.length ? <p className={style.error}>Select Platforms</p>
+                                : input.platforms.map(e => <li onClick={() => handleDeleteP(e)}>{e}</li>)}</ul>
+                        </div>
+
+                        <div>
+                            <label>Genres: </label>
+                            <select onChange={handleSelectG} name='genres'>
+                                {genre.map((p) => (
+                                    <option value={p.name}>{p.name}</option>
+                                ))}
+                            </select>
+                            <ul>{!input.genres.length ? <p className={style.error}>Select Genres</p> : input.genres.map(e => <li onClick={() => handleDeleteG(e)}>{e}</li>)}</ul>
+                        </div>
+                    </div>
+                    <div className={style.button}>
+                        <button type="submit">Create</button>
+                        <button type='button' onClick={handleCancel}>Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     )

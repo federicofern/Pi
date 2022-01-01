@@ -31,6 +31,7 @@
    font-size: 16px;
    margin-left: 20px;
    margin-right: 20px;
+   cursor: pointer;
 }
 
 .cont button:focus{

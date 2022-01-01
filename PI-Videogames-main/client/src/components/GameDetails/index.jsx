@@ -8,45 +8,49 @@ import style from './details.module.css'
 
 const divStyle = {
     textDecoration: "none",
-    };
+};
 
-export default function Details(props) {
+export default function Details() {
     const dispatch = useDispatch()
-    const {id}= useParams()
-    
+    let { id } = useParams()
+
 
     useEffect(() => {
         dispatch(getDetails(id))
     }, [dispatch, id])
-    
-    let details =  useSelector((state) => state.detail)
-    
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
+    let details = useSelector((state) => state.detail)
+    console.log(details)
 
     return (
         <div className={style.cont}>
-                {details? 
-                    <div className={style.card}>
-                                <Link to="/home" style={divStyle}>
-                                    <button>Back</button>
-                                </Link>
-                        <img src={`${details[0]?.background_image}`} alt="Not Found" />
-                        <h1>{details[0]?.name}</h1>
-                        <div>
-                           <h2> {details[0]?.genres?.map((gen) => gen?.name ? 
-                        gen.name+ ' ' : gen + ' ')
+            {details ?
+                <div className={style.card}>
+                    <Link to="/home" style={divStyle}>
+                        <button>Back</button>
+                    </Link>
+                    <img src={`${details[0]?.background_image}`} alt="Not Found" />
+                    <h1>{details[0]?.name}</h1>
+                    <div>
+                        <h2> {details[0]?.genres?.map((gen) => gen?.name ?
+                            gen.name + ' ' : gen + ' ')
                         }</h2>
-                        </div>
-                        <p> Released: {details[0]?.released}</p>
-                        <p>Rating: {details[0]?.rating}</p>
-                        <p>Platforms: {details[0]?.platforms} </p>
-                        <p>Description:</p>
-                        <p
-                            dangerouslySetInnerHTML={{
-                                __html: details[0]?.description,
-                            }}
-                        ></p>
                     </div>
-             :  
+                    <p> Released: {details[0]?.released}</p>
+                    <p>Rating: {details[0]?.rating}</p>
+                    <p>Platforms: {details[0]?.platforms} </p>
+                    <p>Description:</p>
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: details[0]?.description,
+                        }}
+                    ></p>
+                </div>
+                :
                 <div>
                     <div>
                         <h1> Game not found</h1>
@@ -58,4 +62,5 @@ export default function Details(props) {
             }
         </div>
     )
+
 }

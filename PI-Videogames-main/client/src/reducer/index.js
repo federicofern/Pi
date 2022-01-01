@@ -28,13 +28,13 @@ export default function rootReducer(state = initialState, action){
         }
         case FILTER_CREATED:
             let allVideogames1= state.allVideogames
-            const createdFilter= action.payload === 'created'? allVideogames1.filter((el) => typeof el.id === "string") : allVideogames1.filter((el) => typeof el.id === "number")
+            const createdFilter= action.payload === 'created'? allVideogames1?.filter((el) => typeof el.id === "string") : allVideogames1?.filter((el) => typeof el.id === "number")
             return{
             ...state,
-            videoGames: action.payload === 'created' ? allVideogames1 : createdFilter
+            videoGames: action.payload === 'all' ? allVideogames1 : createdFilter
             }
         case ALPHABETICAL_ORDER:
-            let allVideogames2= state.allVideogames
+            let allVideogames2= [...state.allVideogames]
 
             const sortVideogamesAlpha = action.payload==='a-z'? 
                 /* ORDEN ALFABETICO A-Z */
@@ -62,7 +62,7 @@ export default function rootReducer(state = initialState, action){
                     videoGames:  action.payload === 'alpha' ? state.allVideogames : sortVideogamesAlpha
                 } 
         case FILTER_RATING:
-            let allVideogames3= state.allVideogames
+            let allVideogames3= [...state.allVideogames]
             const sortVideogamesRating= action.payload==='top'? 
                 /* ORDEN RATING 5-0 */
                 allVideogames3.sort((a,b)=>{
@@ -86,7 +86,7 @@ export default function rootReducer(state = initialState, action){
                 })
                 return {
                     ...state,
-                    videoGames:  action.payload === 'rating' ? allVideogames3 : sortVideogamesRating
+                    videoGames:  action.payload === 'rating' ? state.allVideogames : sortVideogamesRating
                 } 
         case GET_GAMES_BY_NAME:
             return{
