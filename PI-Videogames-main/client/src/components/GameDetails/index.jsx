@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDetails } from '../../actions/index'
 import { Link, useParams } from 'react-router-dom'
 import style from './details.module.css'
+import image from './imagenes/notfound.jpg'
 
 
 const divStyle = {
@@ -33,12 +34,12 @@ export default function Details() {
                     <Link to="/home" style={divStyle}>
                         <button>Back</button>
                     </Link>
-                    <img src={`${details[0]?.background_image}`} alt="Not Found" />
+                    <img src={details[0]?.background_image ? details[0].background_image : image} alt="Not Found" />
                     <h1>{details[0]?.name}</h1>
                     <div>
-                        <h2> {details[0]?.genres?.map((gen) => gen?.name ?
-                            gen.name + ' ' : gen + ' ')
-                        }</h2>
+                        {details[0]?.genres?.map((gen) => gen?.name ?
+                            <h2 key={gen.name}>{gen.name + ' '}</h2> : <h2 key={gen}>{gen + ' '}</h2>)
+                        }
                     </div>
                     <p> Released: {details[0]?.released}</p>
                     <p>Rating: {details[0]?.rating}</p>

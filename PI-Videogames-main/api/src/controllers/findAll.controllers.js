@@ -28,15 +28,15 @@ const loadGenero = async () => {
     }
   };
 
- const everyGame = async () => {
+ const everyGame =  () => {
    /* Los videogames vienen de a 20 por página, genero un array vacio para ir poniendo todos los que me trae por cada una. Defino una constante 'videogames' donde se almacenarán los datos traidos de la Api*/
    try {
      let page = 1;
       var videogamesTotal = [];
       while (page < 6) {
-        const videogamesPorPagina = await axios(
+        const videogamesPorPagina =  axios(
           `https://api.rawg.io/api/games?key=${API_KEY}&page=${page}`
-        );
+        ).then(res =>{return res});
         var { results } = videogamesPorPagina.data;
         /* Concateno el array results que me envia la api con el array vacio definido al principio, y por cada iteración del bucle se iran sumando los resultados de cada pagina */
         videogamesTotal = videogamesTotal.concat(results);
@@ -48,17 +48,27 @@ const loadGenero = async () => {
    } 
 };
   
-const gameDetail = async (id) => {
-  /* Realizo la petición a la api para que me traiga el detalle del videojuego seleccionado. */
+ const gameDetail = (id) => {
+   /* Realizo la petición a la api para que me traiga el detalle del videojuego seleccionado. */
     try {
-        const videogame = await axios(
-      `https://api.rawg.io/api/games/${id}?key=${API_KEY}`
-    );
-    return videogame 
+        const videogame =  axios(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`
+    ).then(res =>{return res})
+    return videogame
     } catch (error) {
       console.log(error)
     } 
-};
+};  
+
+
+/* const gameDetail = async (id) => {
+   try {
+       const videogame = await axios(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)
+   return videogame
+   } catch (error) {
+     console.log(error)
+   } 
+};  */
+
 
 
 /* --------------- FUNCIONES PARA GENERAR LAS RUTAS --------------- */
@@ -272,10 +282,12 @@ const allPlatforms = async (req, res)=>{
   }
 }
 
+
 module.exports = {
   createGenreDB,
   allVG,
   searchVGid,
   createGame,
-  allPlatforms
+  allPlatforms,
+  platforms2
 }

@@ -33,7 +33,7 @@ export default function About() {
                     I'm a team player who likes challenges and adapts to changes.
                     #StudentModeAlways&#128218;
                 </pre>
-                <h3><span>&lt;</span> <h2>Skills</h2> &nbsp;<span>/&gt;</span></h3>
+                <h2><span>&lt;</span> <h3>Skills</h3> &nbsp;<span>/&gt;</span></h2>
                 <h4>Frontend</h4>
                 <div className={style.cont}>
                     <div>
@@ -77,7 +77,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className={style.contact}>
-                <h3><span>&lt;</span><h2>Contact</h2> &nbsp;<span>/&gt;</span></h3>
+                <h2><span>&lt;</span><h3>Contact</h3> &nbsp;<span>/&gt;</span></h2>
                 </div>
                 <div className={style.cont}>
                     <div>

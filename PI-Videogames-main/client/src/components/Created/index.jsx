@@ -9,6 +9,8 @@ const validate = (input) => {
     let errors = {};
     if (input.name === "") {
         errors.name = "Name incomplete.";
+    } else if (!/^[A-Z]+[A-Za-z0-9\s]+$/g.test(input.name)){
+        errors.name = 'Insert first letter in uppercase'
     }
 
     if (input.name.length > 255) {

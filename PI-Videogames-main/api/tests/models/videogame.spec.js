@@ -1,4 +1,4 @@
-const { Videogame, conn } = require('../../src/db.js');
+const { Videogame, conn, Genre } = require('../../src/db.js');
 const { expect } = require('chai');
 
 describe('Videogame model', () => {

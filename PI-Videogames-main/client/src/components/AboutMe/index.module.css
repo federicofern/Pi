@@ -51,14 +51,14 @@
     margin-left: 50px;
 }
 
-.contenedor h2{
+.contenedor h3{
     margin:0px;
     font-size: 40px;
     font-family: 'Poppins';
     color: rgb(0, 253, 207);
 }
 
-.contenedor h3{
+.contenedor h2{
     display: flex;
     justify-content: center;
     font-family: 'Poppins';

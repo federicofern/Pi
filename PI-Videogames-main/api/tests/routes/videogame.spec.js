@@ -22,3 +22,34 @@ describe('Videogame routes', () => {
     );
   });
 });
+ 
+
+/* var supertest = require("supertest-as-promised")(require("../../src/app"));
+var expect = require("chai").expect;
+var model = require("../../src/controllers/findAll.controllers");
+
+describe("Routes", function () {
+   beforeEach(function () {
+    model.reset();
+  }); 
+
+  describe("/videogames", async function () {
+    it("POST agrega una nueva casa y devuelve el nombre de la casa agregada", function () {
+      return await supertest
+        .post("/videogame")
+        .send({
+          name: "La Mancha",
+          rating: "4.00",
+          background_image: "www.lamancha.com/juego.jpg",
+          description: 'un juego mas',
+          platforms: ['Wii', 'Wii2'],
+          released: '01.01.22'
+        })
+        .expect(200)
+        .expect("Content-Type", /json/)
+        .expect(function (done) {
+           expect(model.createGame()).to.have.length(1);
+        });
+    });
+  })
+}) */

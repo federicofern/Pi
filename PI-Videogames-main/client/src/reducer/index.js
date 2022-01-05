@@ -67,9 +67,9 @@ export default function rootReducer(state = initialState, action){
                 /* ORDEN RATING 5-0 */
                 allVideogames3.sort((a,b)=>{
                     /* En el sort pregunto en los if si estan bien ordenados de esa manera los caracteres, por ejemplo en el primer if pregunta si a<b (F<J), como si lo es, no los rota. */
-                    if(a.rating<b.rating){ //
+                    if(a.rating>b.rating){ //
                     return -1 //no rotes
-                    } if(a.rating>b.rating){//b va antes que a
+                    } if(a.rating<b.rating){//b va antes que a
                     return 1 //rotalos
                     }
                     return 0; //son iguales, dejalos así
@@ -77,9 +77,9 @@ export default function rootReducer(state = initialState, action){
                 /* ORDEN RATING 0-5 */
                 allVideogames3.sort((a,b)=>{
                     /* En el sort pregunto en los if si estan bien ordenados de esa manera los caracteres, por ejemplo en el primer if pregunta si a>b (J>F), si lo es, no los rota. */
-                    if(a.rating>b.rating){ //
+                    if(a.rating<b.rating){ //
                     return -1 //no rotes
-                    } if(a.rating<b.rating){//b va antes que a
+                    } if(a.rating>b.rating){//b va antes que a
                     return 1 //rotalos
                     }
                     return 0;

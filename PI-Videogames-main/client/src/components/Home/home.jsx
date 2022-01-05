@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getVideogames, orderByRating, filterCreated, alphabeticalOrder, getGenres, filterByGenres, getGamesbyName } from '../../actions'
-import Card from '../Card/Card.jsx'
+import GameCard from '../Card/Card.jsx'
 import Paginado from "../Paginado";
 import SearchBar from "../SearchBar";
-import style from './home.module.css'
+import style from './home.module.css';
+import imageNotFound from './image-04.jpg'
 /* 
 useDispatch: Devuelve una referencia a la función dispatch de la tienda Redux. Puede usarlo para enviar acciones según sea necesario.
 useSelector: Le permite extraer datos del estado de la tienda Redux, usando una función de selector. El selector es aproximadamente equivalente al mapStateToProps conceptualmente.
@@ -14,7 +15,7 @@ useSelector: Le permite extraer datos del estado de la tienda Redux, usando una 
 
 const divStyle = {
     textDecoration: "none",
-};
+  };
 
 export default function Home() {
 
@@ -81,7 +82,7 @@ export default function Home() {
     /* La pgina siempre empieza desde arriba */
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+    }, [])
 
 
     return (
@@ -89,21 +90,21 @@ export default function Home() {
             <div className={style.generos}>
                 <h2>GENRES</h2>
                 <div className={style.bot}>
-                    <button onClick={handleFilterByGenres} name="All">All</button>
+                    <button onClick={handleFilterByGenres} name="All" key='All'>All</button>
                     {allGenres &&
                         allGenres.map((genres) => (
-                            <button onClick={handleFilterByGenres} name={genres.name}>{genres.name}</button>
+                            <button onClick={handleFilterByGenres} name={genres.name} key={genres.name}>{genres.name}</button>
                         ))}
                 </div>
             </div>
             <div>
                 <div className={style.searchBar}>
-                   <SearchBar />
+                    <SearchBar key='SearchBar' />
                 </div>
                 <div className={style.filters}>
                     <div>
                         <p>Alphabetical Order </p>
-                        <select onChange={handleSortAlphabetical}>
+                        <select onChange={handleSortAlphabetical} key='Alpha'>
                             <option value="alpha">All</option>
                             <option value="a-z">A-Z</option>
                             <option value="z-a">Z-A</option>
@@ -112,7 +113,7 @@ export default function Home() {
 
                     <div>
                         <p>Order by Rating </p>
-                        <select onChange={handleSortRating}>
+                        <select onChange={handleSortRating} key='Rating'>
                             <option value="rating">All</option>
                             <option value="top">Top</option>
                             <option value="btt">Bottom</option>
@@ -121,10 +122,10 @@ export default function Home() {
 
                     <div>
                         <p>Filter by Created </p>
-                        <select onChange={handleFilterCreated}>
-                            <option value="all">All</option>
+                        <select onChange={handleFilterCreated} key='Created'>
+                            <option value="all" >All</option>
                             <option value="created">Created</option>
-                            <option value="exist">Existing</option>
+                            <option value="existing">Existing</option>
                         </select>
                     </div>
                 </div>
@@ -137,30 +138,29 @@ export default function Home() {
                                 videogamesPerPage={videogamesPerPage}
                                 allVideoGames={allVideoGames.length}
                                 paginado={paginado}
+                                key='Paginado'
                             />
                         </div>
                         <div className={style.total}>
                             {currentVideogames?.map((el) => ( //Mapeamos currentVideogames de modo que se aplique una division de los videogames por página. Cuando yo seteo el estado local currentPage se repite toda la logica desde mi const paginado, pasando por mi elemento Paginado y vuelta a currentVideogames 
-                                <Link style={divStyle} to={'/videogame/' + el.id} id={el.id}>
-                                    <Card
-                                        img={el.background_image ? el.background_image : <img src='./IMG_NOT_FOUND' />}
+                                <Link style={divStyle} to={'/videogame/' + el.id} id={el.id} key={el.id.toString()}>
+                                    <GameCard
+                                        /* key={el.id.toString()}  */
+                                        img={el.background_image ? el.background_image : imageNotFound}
                                         name={el.name}
-                                        id={el.id}
-                                        key={el.id}
                                         rating={el.rating}
                                         genres={el.genres.map((gen) => {
                                             return `${gen.name}. `
                                         })}
                                     />
                                 </Link>
-
                             )
                             )}
                         </div>
                     </div>)
                     :
-                    (<div class={style.load}>
-                        <div class={style.loader}>
+                    (<div className={style.load}>
+                        <div className={style.loader}>
                         </div>
                     </div>
                     )}
