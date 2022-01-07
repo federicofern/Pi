@@ -9,7 +9,7 @@ const validate = (input) => {
     let errors = {};
     if (input.name === "") {
         errors.name = "Name incomplete.";
-    } else if (!/^[A-Z]+[A-Za-z0-9\s]+$/g.test(input.name)){
+    } else if (!/^[A-Z]+[A-Za-z0-9\s]+$/g.test(input.name)) {
         errors.name = 'Insert first letter in uppercase'
     }
 
@@ -18,7 +18,7 @@ const validate = (input) => {
     }
 
     if (input.background_image === "") {
-        errors.background_image = "Choose an image to continue";
+        errors.background_image = "What image does it have?";
     }
 
     if (!input.description) {
@@ -208,23 +208,23 @@ export default function VideogameCreate() {
                     <div className={style.platgen}>
                         <div >
                             <label>Platforms: </label>
-                            <select onChange={handleSelectP} name='platforms'>
+                            <select onChange={handleSelectP} name='platforms' key={'plat'}>
                                 {platforms.map((p) => (
-                                    <option value={p}>{p}</option>
+                                    <option value={p} key={p}>{p}</option>
                                 ))}
                             </select>
                             <ul>{!input.platforms.length ? <p className={style.error}>Select Platforms</p>
-                                : input.platforms.map(e => <li onClick={() => handleDeleteP(e)}>{e}</li>)}</ul>
+                                : input.platforms.map(e => <li onClick={() => handleDeleteP(e)} key={e}>{e}</li>)}</ul>
                         </div>
 
                         <div>
                             <label>Genres: </label>
-                            <select onChange={handleSelectG} name='genres'>
-                                {genre.map((p) => (
-                                    <option value={p.name}>{p.name}</option>
+                            <select onChange={handleSelectG} name='genres' key={'gen'}>
+                                {genre.map((g) => (
+                                    <option value={g.name} key={g}>{g.name}</option>
                                 ))}
                             </select>
-                            <ul>{!input.genres.length ? <p className={style.error}>Select Genres</p> : input.genres.map(e => <li onClick={() => handleDeleteG(e)}>{e}</li>)}</ul>
+                            <ul>{!input.genres.length ? <p className={style.error}>Select Genres</p> : input.genres.map(e => <li onClick={() => handleDeleteG(e)} key={e}>{e}</li>)}</ul>
                         </div>
                     </div>
                     <div className={style.button}>

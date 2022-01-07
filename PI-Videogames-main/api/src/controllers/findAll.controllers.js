@@ -12,7 +12,6 @@ const loadGenero = async () => {
       let gen = await Genre.count(); //solicitud a la base de datos, pregunta si esta vacio o no
     
       if (gen === 0) {
-        /* Solicito a la base los generos que hay disponibles y los guardo en la variable 'genero', para luego extraer la propiedad results de la data que nos traemos de la api */
         const genero = await axios(`https://api.rawg.io/api/genres?key=${API_KEY}`);
         const { results } = genero.data;
         /* Iteramos cada uno de los resultados para extraer las propiedades id y name e ir asignando los valores a la tabla Genero */
@@ -28,15 +27,15 @@ const loadGenero = async () => {
     }
   };
 
- const everyGame =  () => {
+ const everyGame = async () => {
    /* Los videogames vienen de a 20 por página, genero un array vacio para ir poniendo todos los que me trae por cada una. Defino una constante 'videogames' donde se almacenarán los datos traidos de la Api*/
    try {
      let page = 1;
       var videogamesTotal = [];
       while (page < 6) {
-        const videogamesPorPagina =  axios(
+        const videogamesPorPagina =  await axios(
           `https://api.rawg.io/api/games?key=${API_KEY}&page=${page}`
-        ).then(res =>{return res});
+        )
         var { results } = videogamesPorPagina.data;
         /* Concateno el array results que me envia la api con el array vacio definido al principio, y por cada iteración del bucle se iran sumando los resultados de cada pagina */
         videogamesTotal = videogamesTotal.concat(results);
@@ -71,8 +70,10 @@ const loadGenero = async () => {
 
 
 
-/* --------------- FUNCIONES PARA GENERAR LAS RUTAS --------------- */
+/* ------------------------------------------------ FUNCIONES PARA GENERAR LAS RUTAS------------------------------------------- */
 
+/* ------------- CREAR LA BASE DE DATOS DE GENEROS ------------------  */
+/* ------------- CREAR LA BASE DE DATOS DE GENEROS ------------------  */
 
 const createGenreDB = async (req, res) => {
   await loadGenero();
@@ -80,6 +81,8 @@ const createGenreDB = async (req, res) => {
 }
 
 
+/* ------------- ENVIAR TODOS LOS VIDEOJUEGOS ------------------  */
+/* ------------- ENVIAR TODOS LOS VIDEOJUEGOS ------------------  */
 
 const allVG = async (req, res) => {
   try {
@@ -176,6 +179,10 @@ const allVG = async (req, res) => {
 }
 
 
+
+/* ------------- BUSQUEDA DE TODOS LOS VIDEOJUEGOS ------------------  */
+/* ------------- BUSQUEDA DE TODOS LOS VIDEOJUEGOS ------------------  */
+
 const searchVGid = async (req, res) => {
   const id = req.params.idVideogame
 
@@ -234,6 +241,9 @@ const searchVGid = async (req, res) => {
 
 
 
+/* ------------- CREAR UN VIDEOJUEGO ------------------  */
+/* ------------- CREAR UN VIDEOJUEGO ------------------  */
+
 const createGame = async (req, res) => {
   try {
     const {name, background_image, description, released, rating, platforms, genres} = req.body;
@@ -255,6 +265,12 @@ const createGame = async (req, res) => {
     console.log(error)
   }
 }
+
+
+
+/* ------------- ENVIAR TODAS LAS PLATAFORMAS ------------------  */
+/* ------------- ENVIAR TODAS LAS PLATAFORMAS ------------------  */
+
 
 const allPlatforms = async (req, res)=>{
   try {
@@ -289,5 +305,4 @@ module.exports = {
   searchVGid,
   createGame,
   allPlatforms,
-  platforms2
 }
