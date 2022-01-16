@@ -246,6 +246,11 @@ const searchVGid = async (req, res) => {
 
 const createGame = async (req, res) => {
   try {
+
+    const apikey= req.query.apikey
+    if(apikey !== 'henry'){
+      res.status(401).send('No autorizado')
+    }
     const {name, background_image, description, released, rating, platforms, genres} = req.body;
     const newVideogame = await Videogame.create({
       name,

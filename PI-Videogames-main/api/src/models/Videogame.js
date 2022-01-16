@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     background_image: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING(1234)
     },
   },
     {

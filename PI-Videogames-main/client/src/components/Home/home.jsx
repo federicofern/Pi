@@ -15,7 +15,7 @@ useSelector: Le permite extraer datos del estado de la tienda Redux, usando una 
 
 const divStyle = {
     textDecoration: "none",
-  };
+};
 
 export default function Home() {
 

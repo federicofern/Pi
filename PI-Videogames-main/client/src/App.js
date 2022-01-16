@@ -9,20 +9,20 @@ import About from './components/AboutMe';
 
 function App() {
   return (
-  <div className="App">
-    <Routes>
-        <Route exact path='/' element={<LandingPage/>}/>
-    </Routes>
-    <div>
-        <NavBar/>
-    <Routes>
-        <Route exact path='/home' element={<Home/>}/>
-        <Route exact path='/created' element={<VideogameCreate/>}/>
-        <Route exact path='/videogame/:id' element={<Details/>}/>
-        <Route exact path='/about' element={<About/>}/>
-   </Routes>
+    <div className="App">
+      <Routes>
+        <Route exact path='/' element={<LandingPage />} />
+      </Routes>
+      <div>
+        <NavBar />
+        <Routes>
+          <Route exact path='/home' element={<Home />} />
+          <Route exact path='/created' element={<VideogameCreate />} />
+          <Route exact path='/videogame/:id' element={<Details />} />
+          <Route exact path='/about' element={<About />} />
+        </Routes>
+      </div>
     </div>
-  </div>
   );
 }
 

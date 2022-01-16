@@ -104,7 +104,7 @@ export const getPlatforms = ()=>{
 export const postVideogame =(payload)=>{
   return async function (){
     try {
-      var response = await axios.post("http://localhost:3001/videogame", payload)
+      var response = await axios.post("http://localhost:3001/videogame?apikey=henry", payload)
       return response;
     } catch (error) {
       console.log(error)
